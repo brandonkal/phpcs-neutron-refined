@@ -1,20 +1,57 @@
 <?xml version="1.0"?>
-<ruleset name="NeutronRuleset">
-	<description>Neutron Ruleset.</description>
+<ruleset name="NeutronRefined">
+	<description>A base ruleset for EventsMadeLive projects. Based heavily on the Neutron Ruleset by Automattic</description>
+	<config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/wimg/php-compatibility" />
+
+	<exclude-pattern>*/phpunit.xml*</exclude-pattern>
+	<exclude-pattern>*/languages/*</exclude-pattern>
+	<exclude-pattern>*/tests/*</exclude-pattern>
+
+	<!-- Third-party code -->
+	<exclude-pattern>*/bower-components/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+
+	<!-- Ensure certain file types aren't sniffed -->
+	<exclude-pattern>*.js</exclude-pattern>
+	<exclude-pattern>*.css</exclude-pattern>
+
+	<!-- Don't worry about files that don't contain any code -->
+	<rule ref="Internal.NoCodeFound">
+		<severity>0</severity>
+	</rule>
+
+	<!-- Internal exceptions (often occur on minified files) -->
+	<rule ref="Internal.Tokenizer.Exception">
+		<severity>0</severity>
+	</rule>
+
+	<!-- For CI, don't fail on warnings -->
+	<config name="ignore_warnings_on_exit" value="1"/>
+
 	<rule ref="VariableAnalysis"/>
 	<rule ref="NeutronStandard"/>
-	<rule ref="ImportDetection"/>
-	<rule ref="WordPress"/>
+	<rule ref="WordPress-Extra">
+		<!-- Forget about file names -->
+		<exclude name="WordPress.Files.FileName"/>
+
+		<!-- Allow same line control structures e.g. if ( true ) { echo 1; } -->
+		<exclude name="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace"/>
+
+		<!-- Don't require punctuation after inline comments -->
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
+
+		<!-- Allow empty catch statements -->
+		<exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedCatch"/>
+
+		<!-- Comment punctuation doesn't matter -->
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop"/>
+	</rule>
 	<rule ref="Squiz.Commenting">
 		<severity>0</severity>
 	</rule>
-	<rule ref="ImportDetection.Imports.RequireImports">
-		<properties>
-			<property name="ignoreUnimportedSymbols" value="/^(BD_PROCESSOR_[A-Z_]+|BD_STRIPE_[A-Z_]+|BD_PAYPAL_[A-Z_]+|BD_TXN[A-Z_]+|BD_TYPE[A-Z_]+|BILLINGDADDY_HOME|require_lib|WPCOM_[A-Z_]+|tracks_record_event|BD_INTERVAL_[A-Z_]+)$/"/>
-			<property name="ignoreGlobalsWhenInGlobalScope" value="true"/>
-			<property name="ignoreWordPressSymbols" value="true"/>
-		</properties>
-	</rule>
+
+	<!-- NeutronRuleset Rules -->
 	<rule ref="Generic.Commenting.DocComment.SpacingBeforeTags">
 		<severity>0</severity>
 	</rule>
@@ -54,9 +91,6 @@
 	<rule ref="WordPress.VIP.DirectDatabaseQuery.NoCaching">
 		<severity>0</severity>
 	</rule>
-	<rule ref="ImportDetection.Imports.RequireImports.Import">
-		<type>error</type>
-	</rule>
 	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable">
 		<type>error</type>
 	</rule>
@@ -95,4 +129,78 @@
 	<rule ref="WordPress.XSS.EscapeOutput.OutputNotEscaped">
 		<severity>0</severity>
 	</rule>
+	<!-- End NeutronRuleset Rules -->
+
+	<!-- My Rules -->
+	<rule ref="Squiz.PHP.CommentedOutCode"/>
+		<rule ref="Squiz.PHP.Eval.Discouraged">
+		<type>error</type>
+		<message>`eval()` is a security risk so not allowed.</message>
+	</rule>
+	<!-- From VIPMinimum -->
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_ini_set">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_error_reporting">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_ini_alter">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_ini_restore">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_apache_setenv">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_set_include_path">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_restore_include_path">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_magic_quotes_runtime">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_set_magic_quotes_runtime">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_dl">
+		<type>error</type>
+	</rule>
+
+		<!-- https://vip.wordpress.com/documentation/code-review-what-we-look-for/#commented-out-code-debug-code-or-output -->
+	<rule ref="WordPress.PHP.DevelopmentFunctions">
+		<!-- this is being covered in terms of WordPress.PHP.DiscouragedPHPFunctions sniff -->
+		<exclude name="WordPress.PHP.DevelopmentFunctions.prevent_path_disclosure_error_reporting"/>
+	</rule>
+	<!-- https://vip.wordpress.com/documentation/vip/code-review-what-we-look-for/#settings-alteration -->
+	<rule ref="WordPress.PHP.DevelopmentFunctions.prevent_path_disclosure">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DevelopmentFunctions.error_log_error_log">
+		<type>error</type>
+	</rule>
+	<rule ref="WordPress.PHP.DevelopmentFunctions.error_log_var_dump">
+		<type>error</type>
+	</rule>
+
+
+	<!-- From VIP GO -->
+	<rule ref="Generic.NamingConventions.ConstructorName.OldStyle">
+		<type>error</type>
+		<severity>5</severity>
+		<message>This is currently deprecated in PHP 7.0 and will be removed in the future. This will cause a fatal error on newer versions of PHP and should be fixed.</message>
+	</rule>
+
+
+	<!-- Make missing translator comment a warning. -->
+	<rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
+		<type>warning</type>
+	</rule>
+	<!-- End My Rules -->
+
 </ruleset>
