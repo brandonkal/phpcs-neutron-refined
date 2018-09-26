@@ -1,5 +1,5 @@
 {
-  "name": "automattic/phpcs-neutron-refined",
+  "name": "brandonkal/phpcs-neutron-refined",
   "description": "A base ruleset for EventsMadeLive projects. Based heavily on the Neutron Ruleset by Automattic",
   "type": "phpcodesniffer-standard",
   "license": "MIT",
