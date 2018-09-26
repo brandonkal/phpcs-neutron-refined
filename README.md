@@ -1,4 +1,6 @@
-# Neutron PHP Ruleset
+# Neutron Refined PHP Ruleset
+
+There are a set of linting guidelines for EventsMadeLive PHP projects. It is heavily adapted from the Neutron Ruleset by Automattic.
 
 These are a set of modern (PHP >7) linting guidelines for WordPress development. Because of the newer PHP version, it is not suitable for work on Core WordPress, but may be useful for those who are not bound by PHP 5.2.
 
@@ -8,10 +10,10 @@ This project is a [phpcs](https://github.com/squizlabs/PHP_CodeSniffer) "standar
 
 This is a meta-project in that it's just a collection of rules defined in these packages with certain modifications:
 
-- [WordPress Coding Standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards)
-- [VariableAnalysis](https://github.com/sirbrillig/phpcs-variable-analysis)
-- [NeutronStandard](https://github.com/Automattic/phpcs-neutron-standard)
-- [ImportDetection](https://github.com/sirbrillig/phpcs-import-detection)
+-   [WordPress Coding Standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards)
+-   [VariableAnalysis](https://github.com/sirbrillig/phpcs-variable-analysis)
+-   [NeutronStandard](https://github.com/Automattic/phpcs-neutron-standard)
+-   [ImportDetection](https://github.com/sirbrillig/phpcs-import-detection)
 
 ## Installation
 
@@ -32,7 +34,7 @@ The following configuration will enable all the sniffs in this ruleset.
 <?xml version="1.0"?>
 <ruleset name="MyStandard">
  <description>My library.</description>
- <rule ref="NeutronRuleset"/>
+ <rule ref="NeutronRefined"/>
 </ruleset>
 ```
 
