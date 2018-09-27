@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="NeutronRefined">
 	<description>A base ruleset for EventsMadeLive projects. Based heavily on the Neutron Ruleset by Automattic</description>
-	<config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/wimg/php-compatibility" />
 
 	<exclude-pattern>*/phpunit.xml*</exclude-pattern>
 	<exclude-pattern>*/languages/*</exclude-pattern>
@@ -201,6 +200,19 @@
 	<rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
 		<type>warning</type>
 	</rule>
+
+	<!-- Remove some Strict Rules from the NeutronRuleset -->
+	<rule ref="NeutronStandard.AssignAlign.DisallowAssignAlign">
+		<severity>0</severity>
+	</rule>
+	<!-- These rules are useful and may eventually reintegrated into the codebase checks -->
+	<rule ref="NeutronStandard.Globals.DisallowGlobalFunctions">
+		<severity>0</severity>
+	</rule>
+	<rule ref="NeutronStandard.StrictTypes.RequireStrictTypes">
+		<severity>0</severity>
+	</rule>
+
 	<!-- End My Rules -->
 
 </ruleset>
