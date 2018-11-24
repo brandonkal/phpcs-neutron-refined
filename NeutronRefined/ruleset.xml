@@ -96,6 +96,7 @@
 	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis">
 		<properties>
 			<property name="allowUnusedCaughtExceptions" value="true"/>
+			<property name="validUnusedVariableNames" value="post wpdb"/>
 		</properties>
 	</rule>
 	<rule ref="NeutronStandard.Functions.LongFunction.LongFunction">
